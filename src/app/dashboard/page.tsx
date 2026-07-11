@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import OnboardingForm from '@/components/OnboardingForm'
+import CopyLinkButton from './CopyLinkButton'
 
 export default async function DashboardHome() {
   const supabase = createClient()
