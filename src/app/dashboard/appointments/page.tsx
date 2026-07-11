@@ -19,7 +19,7 @@ export default async function AppointmentsPage() {
       end_time,
       status,
       created_at,
-      clients ( name, phone ),
+      clients ( first_name, last_name, phone ),
       services ( name, price ),
       barbers ( first_name, last_name )
     `)
@@ -76,7 +76,9 @@ export default async function AppointmentsPage() {
                   return (
                     <tr key={apt.id} className="hover:bg-white/[0.02] transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-white">{apt.clients?.name}</div>
+                        <div className="text-sm font-medium text-white">
+                          {apt.clients?.first_name} {apt.clients?.last_name !== '.' ? apt.clients?.last_name : ''}
+                        </div>
                         <div className="text-sm text-white/40">{apt.clients?.phone}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
