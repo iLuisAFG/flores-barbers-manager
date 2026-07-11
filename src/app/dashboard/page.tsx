@@ -75,22 +75,25 @@ export default async function DashboardHome() {
       </div>
 
       {/* Quick Actions / Link */}
-      <div className="mt-8 bg-charcoal-900/30 backdrop-blur-md rounded-3xl p-8 border border-white/5 flex flex-col sm:flex-row items-center justify-between gap-6">
-        <div>
+      <div className="mt-8 bg-charcoal-900/30 backdrop-blur-md rounded-3xl p-6 sm:p-8 border border-white/5 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div className="w-full sm:w-auto text-center sm:text-left">
           <h3 className="text-lg font-medium text-white mb-2">Página Pública de Reservas</h3>
           <p className="text-sm text-white/40">Comparte este enlace con tus clientes para que puedan agendar.</p>
         </div>
-        <div className="flex items-center gap-4 w-full sm:w-auto">
-          <code className="bg-black/50 px-4 py-3 rounded-xl text-gold-400 text-sm font-mono border border-white/10 w-full sm:w-auto overflow-hidden text-ellipsis">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+          <code className="bg-black/50 px-4 py-3 rounded-xl text-gold-400 text-sm font-mono border border-white/10 w-full text-center sm:text-left overflow-x-auto whitespace-nowrap">
             {process.env.NEXT_PUBLIC_SITE_URL || 'https://tu-dominio.com'}/{barbershop.slug}
           </code>
-          <a 
-            href={`/${barbershop.slug}`} 
-            target="_blank"
-            className="hidden sm:inline-flex px-6 py-3 rounded-xl bg-white/5 text-white text-sm font-medium hover:bg-white/10 transition-colors border border-white/10"
-          >
-            Ver Página
-          </a>
+          <div className="flex flex-col sm:flex-row items-stretch gap-3 w-full sm:w-auto mt-2 sm:mt-0">
+            <CopyLinkButton link={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://tu-dominio.com'}/${barbershop.slug}`} />
+            <a 
+              href={`/${barbershop.slug}`} 
+              target="_blank"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 rounded-xl bg-gold-500 text-black text-sm font-bold hover:bg-gold-400 transition-colors shadow-lg shadow-gold-500/20"
+            >
+              Ver Página
+            </a>
+          </div>
         </div>
       </div>
     </div>

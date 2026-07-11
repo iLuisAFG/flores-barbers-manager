@@ -11,15 +11,15 @@ export default function LandingPage() {
               <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-400 to-amber-600 flex items-center justify-center shadow-lg shadow-amber-500/20">
                 <span className="text-black font-bold text-lg">F</span>
               </div>
-              <span className="text-xl font-bold tracking-tight text-white">
-                Flores Barbers <span className="font-light text-white/50">Manager</span>
+              <span className="text-lg sm:text-xl font-bold tracking-tight text-white">
+                Flores Barbers <span className="hidden sm:inline font-light text-white/50">Manager</span>
               </span>
             </div>
-            <div className="flex items-center gap-6">
-              <Link href="/login" className="text-sm font-medium text-white/70 hover:text-white transition-colors">
+            <div className="flex items-center gap-3 sm:gap-6">
+              <Link href="/login" className="hidden sm:block text-sm font-medium text-white/70 hover:text-white transition-colors">
                 Iniciar Sesión
               </Link>
-              <Link href="/login" className="inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold rounded-full text-black bg-white hover:bg-gray-100 transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(255,255,255,0.2)]">
+              <Link href="/login" className="inline-flex items-center justify-center px-4 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-semibold rounded-full text-black bg-white hover:bg-gray-100 transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(255,255,255,0.2)]">
                 Comenzar Gratis
               </Link>
             </div>
