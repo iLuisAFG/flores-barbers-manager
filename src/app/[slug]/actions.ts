@@ -32,37 +32,6 @@ export async function createAppointment(formData: FormData) {
   const [firstName, ...lastNameArr] = fullName.trim().split(' ')
   const lastName = lastNameArr.join(' ') || '.' 
 
-  let clientId: string
-
-  // Try to find existing client by phone
-  const { data: existingClient } = await supabase
-    .from('clients')
-    .select('id')
-    .eq('barbershop_id', barbershopId)
-    .eq('phone', phone)
-    .single()
-
-  if (existingClient) {
-    clientId = existingClient.id
-  } else {
-    // Create new client
-    const { data: newClient, error: clientError } = await supabase
-      .from('clients')
-      .insert({
-        barbershop_id: barbershopId,
-        first_name: firstName,
-        last_name: lastName,
-        phone: phone,
-      })
-      .select('id')
-      .single()
-
-    if (clientError || !newClient) {
-      return { error: 'Error al registrar los datos del cliente.' }
-    }
-    clientId = newClient.id
-  }
-
   // 3. Calculate times
   const startTime = new Date(`${date}T${time}:00`)
   if (isNaN(startTime.getTime())) {
@@ -71,21 +40,21 @@ export async function createAppointment(formData: FormData) {
 
   const endTime = new Date(startTime.getTime() + service.duration_minutes * 60000)
 
-  // 4. Insert Appointment
-  const { error: appointmentError } = await supabase
-    .from('appointments')
-    .insert({
-      barbershop_id: barbershopId,
-      barber_id: barberId,
-      service_id: serviceId,
-      client_id: clientId,
-      start_time: startTime.toISOString(),
-      end_time: endTime.toISOString(),
-      total_price: service.price,
-      status: 'scheduled'
-    })
+  // 4. Call Secure RPC to bypass RLS for public insertions
+  const { data: result, error: rpcError } = await supabase.rpc('book_appointment', {
+    p_barbershop_id: barbershopId,
+    p_service_id: serviceId,
+    p_barber_id: barberId,
+    p_first_name: firstName,
+    p_last_name: lastName,
+    p_phone: phone,
+    p_start_time: startTime.toISOString(),
+    p_end_time: endTime.toISOString(),
+    p_price: service.price
+  })
 
-  if (appointmentError) {
+  if (rpcError || !result?.success) {
+    console.error('RPC Error:', rpcError || result?.error)
     return { error: 'Ocurrió un error al confirmar la cita. Por favor, intenta nuevamente.' }
   }
 
