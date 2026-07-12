@@ -320,3 +320,25 @@ export async function deleteAppointments(appointmentIds: string[]) {
   return { success: true }
 }
 
+export async function updateBarbershopSettings(formData: FormData) {
+  const supabase = createClient()
+  
+  const barbershopId = await getBarbershopId()
+  if (!barbershopId) return { error: 'Barbería no encontrada o no autorizado.' }
+
+  const whatsappNumber = formData.get('whatsapp_number') as string
+  
+  const { error } = await supabase
+    .from('barbershops')
+    .update({ whatsapp_number: whatsappNumber })
+    .eq('id', barbershopId)
+
+  if (error) {
+    console.error('Error updating settings:', error)
+    return { error: 'Error al actualizar la configuración.' }
+  }
+
+  revalidatePath('/dashboard/settings')
+  return { success: true }
+}
+

@@ -8,7 +8,7 @@ export default async function PublicBarbershopPage({ params }: { params: { slug:
   // Find barbershop by slug
   const { data: barbershop } = await supabase
     .from('barbershops')
-    .select('id, name')
+    .select('id, name, whatsapp_number')
     .eq('slug', params.slug)
     .single()
 
@@ -57,6 +57,7 @@ export default async function PublicBarbershopPage({ params }: { params: { slug:
             barbershopId={barbershop.id} 
             services={services || []} 
             barbers={barbers || []} 
+            whatsappNumber={barbershop.whatsapp_number}
           />
         </div>
 

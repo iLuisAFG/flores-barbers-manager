@@ -9,11 +9,13 @@ type Barber = { id: string; first_name: string; last_name: string }
 export default function BookingForm({ 
   barbershopId, 
   services, 
-  barbers 
+  barbers,
+  whatsappNumber
 }: { 
   barbershopId: string, 
   services: Service[], 
-  barbers: Barber[] 
+  barbers: Barber[],
+  whatsappNumber?: string | null
 }) {
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -69,6 +71,32 @@ export default function BookingForm({
       setError(result.error)
     } else if (result?.success) {
       setSuccess(true)
+      
+      // WhatsApp Redirection
+      if (whatsappNumber) {
+        const serviceName = services.find(s => s.id === selectedService)?.name || ''
+        const servicePrice = services.find(s => s.id === selectedService)?.price || ''
+        const barberName = barbers.find(b => b.id === selectedBarber)?.first_name || ''
+        
+        // Format date: YYYY-MM-DD -> amigable
+        const dateObj = new Date(`${selectedDate}T00:00:00`)
+        const formattedDate = dateObj.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })
+        
+        const clientName = formData.get('name') as string || 'Cliente'
+        
+        const message = `¡Hola! Acabo de agendar una cita en su barbería.
+Detalles de mi reserva:
+Nombre: ${clientName}
+Servicio: ${serviceName}
+Barbero: ${barberName}
+Día: ${formattedDate}
+Hora: ${selectedTime}
+Precio: $${servicePrice}
+¡Nos vemos pronto!`
+
+        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`
+        window.open(whatsappUrl, '_blank')
+      }
     }
     setLoading(false)
   }
