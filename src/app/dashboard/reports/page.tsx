@@ -71,31 +71,37 @@ export default async function ReportsPage() {
 
     // Services
     if (apt.services) {
-      const sId = apt.services.id
-      if (!servicesCount[sId]) {
-        servicesCount[sId] = { name: apt.services.name, count: 0, revenue: 0 }
+      const service: any = Array.isArray(apt.services) ? apt.services[0] : apt.services
+      if (service) {
+        const sId = service.id
+        if (!servicesCount[sId]) {
+          servicesCount[sId] = { name: service.name, count: 0, revenue: 0 }
+        }
+        servicesCount[sId].count += 1
+        servicesCount[sId].revenue += price
       }
-      servicesCount[sId].count += 1
-      servicesCount[sId].revenue += price
     }
 
     // Payroll
     if (apt.barbers) {
-      const bId = apt.barbers.id
-      if (!payroll[bId]) {
-        const pct = Number(apt.barbers.commission_percentage) || 0
-        payroll[bId] = {
-          id: bId,
-          name: `${apt.barbers.first_name} ${apt.barbers.last_name !== '.' ? apt.barbers.last_name : ''}`.trim(),
-          commissionPct: pct,
-          generatedRevenue: 0,
-          commissionEarned: 0,
-          appointmentsCount: 0
+      const barber: any = Array.isArray(apt.barbers) ? apt.barbers[0] : apt.barbers
+      if (barber) {
+        const bId = barber.id
+        if (!payroll[bId]) {
+          const pct = Number(barber.commission_percentage) || 0
+          payroll[bId] = {
+            id: bId,
+            name: `${barber.first_name} ${barber.last_name !== '.' ? barber.last_name : ''}`.trim(),
+            commissionPct: pct,
+            generatedRevenue: 0,
+            commissionEarned: 0,
+            appointmentsCount: 0
+          }
         }
+        payroll[bId].generatedRevenue += price
+        payroll[bId].commissionEarned += (price * (payroll[bId].commissionPct / 100))
+        payroll[bId].appointmentsCount += 1
       }
-      payroll[bId].generatedRevenue += price
-      payroll[bId].commissionEarned += (price * (payroll[bId].commissionPct / 100))
-      payroll[bId].appointmentsCount += 1
     }
   })
 
