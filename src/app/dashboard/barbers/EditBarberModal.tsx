@@ -57,6 +57,19 @@ export default function EditBarberModal({ barber }: { barber: any }) {
                 />
               </div>
 
+              <div>
+                <label className="block text-sm font-medium text-white/70 mb-2">Porcentaje de Comisión (%)</label>
+                <input 
+                  type="number" 
+                  name="commission_percentage" 
+                  defaultValue={barber.commission_percentage || 50}
+                  min="0"
+                  max="100"
+                  step="0.01"
+                  className="w-full rounded-xl border-0 py-3 px-4 bg-white/5 text-white ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-gold-500 transition-all text-sm"
+                />
+              </div>
+
               <div className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10">
                 <div>
                   <p className="text-sm font-medium text-white">Estado del Barbero</p>

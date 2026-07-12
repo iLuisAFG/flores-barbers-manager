@@ -64,15 +64,19 @@ export async function createBarber(formData: FormData) {
   if (!barbershopId) return { error: 'Barbería no encontrada.' }
 
   const name = formData.get('name') as string
+  const commissionStr = formData.get('commission_percentage') as string
+  const commission = commissionStr ? parseFloat(commissionStr) : 0
+
   if (!name) return { error: 'El nombre es obligatorio.' }
 
   const [firstName, ...lastNameArr] = name.trim().split(' ')
-  const lastName = lastNameArr.join(' ') || '.' // SQL require last_name, fallback to '.'
+  const lastName = lastNameArr.join(' ') || '.' 
 
   const { error } = await supabase.from('barbers').insert({
     barbershop_id: barbershopId,
     first_name: firstName,
     last_name: lastName,
+    commission_percentage: isNaN(commission) ? 0 : commission
   })
 
   if (error) return { error: 'Error al crear el barbero.' }
@@ -150,6 +154,9 @@ export async function updateBarber(id: string, formData: FormData, isActive: boo
   if (!user) return { error: 'No autorizado' }
 
   const name = formData.get('name') as string
+  const commissionStr = formData.get('commission_percentage') as string
+  const commission = commissionStr ? parseFloat(commissionStr) : 0
+
   if (!name) return { error: 'Nombre requerido' }
 
   const [firstName, ...lastNameArr] = name.trim().split(' ')
@@ -157,7 +164,12 @@ export async function updateBarber(id: string, formData: FormData, isActive: boo
 
   const { error } = await supabase
     .from('barbers')
-    .update({ first_name: firstName, last_name: lastName, is_active: isActive })
+    .update({ 
+      first_name: firstName, 
+      last_name: lastName, 
+      is_active: isActive,
+      commission_percentage: isNaN(commission) ? 0 : commission
+    })
     .eq('id', id)
 
   if (error) return { error: 'Error al actualizar' }

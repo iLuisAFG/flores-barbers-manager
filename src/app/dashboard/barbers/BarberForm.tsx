@@ -20,16 +20,32 @@ export default function BarberForm({ barbershopId }: { barbershopId: string }) {
   return (
     <form ref={formRef} action={handleSubmit} className="space-y-5">
       <div>
-        <label htmlFor="first_name" className="block text-sm font-medium text-white/70 mb-2">
+        <label htmlFor="name" className="block text-sm font-medium text-white/70 mb-2">
           Nombre Completo o Apodo
         </label>
         <input 
           type="text" 
-          name="first_name" 
-          id="first_name" 
+          name="name" 
+          id="name" 
           required 
           className="block w-full rounded-xl border-0 py-3 px-4 bg-white/5 text-white ring-1 ring-inset ring-white/10 placeholder:text-white/30 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-gold-500 sm:text-sm sm:leading-6 transition-all"
           placeholder="Ej. Carlos 'El Mago'"
+        />
+      </div>
+      <div>
+        <label htmlFor="commission_percentage" className="block text-sm font-medium text-white/70 mb-2">
+          Porcentaje de Comisión (%)
+        </label>
+        <input 
+          type="number" 
+          name="commission_percentage" 
+          id="commission_percentage" 
+          min="0"
+          max="100"
+          step="0.01"
+          defaultValue="50"
+          className="block w-full rounded-xl border-0 py-3 px-4 bg-white/5 text-white ring-1 ring-inset ring-white/10 placeholder:text-white/30 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-gold-500 sm:text-sm sm:leading-6 transition-all"
+          placeholder="Ej. 50"
         />
       </div>
       <button 

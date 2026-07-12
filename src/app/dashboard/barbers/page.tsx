@@ -52,6 +52,9 @@ export default async function BarbersPage() {
                       Nombre
                     </th>
                     <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-white/40 uppercase tracking-wider">
+                      Comisión
+                    </th>
+                    <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-white/40 uppercase tracking-wider">
                       Estado
                     </th>
                     <th scope="col" className="relative px-6 py-4">
@@ -79,6 +82,11 @@ export default async function BarbersPage() {
                                 {barber.first_name} {barber.last_name !== '.' ? barber.last_name : ''}
                               </div>
                             </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm font-medium text-gold-400">
+                            {barber.commission_percentage || 0}%
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
