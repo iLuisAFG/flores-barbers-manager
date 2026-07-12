@@ -53,9 +53,15 @@ export async function createAppointment(formData: FormData) {
     p_price: service.price
   })
 
-  if (rpcError || !result?.success) {
-    console.error('RPC Error:', rpcError || result?.error)
-    return { error: 'Ocurrió un error al confirmar la cita. Por favor, intenta nuevamente.' }
+  console.log("RPC Raw Result:", result)
+  console.log("RPC Raw Error:", rpcError)
+
+  if (rpcError) {
+    return { error: `RPC Error: ${rpcError.message}` }
+  }
+
+  if (!result || result.success === false) {
+    return { error: `BD Error: ${result?.error || 'Error desconocido al registrar cita'}` }
   }
 
   return { success: true }
