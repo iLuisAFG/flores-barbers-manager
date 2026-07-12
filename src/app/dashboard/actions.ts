@@ -293,3 +293,30 @@ export async function deleteTimeBlock(blockId: string) {
   revalidatePath('/dashboard/schedule')
   return { success: true }
 }
+
+export async function deleteAppointments(appointmentIds: string[]) {
+  const supabase = createClient()
+  
+  const barbershopId = await getBarbershopId()
+  if (!barbershopId) return { error: 'Barbería no encontrada o no autorizado.' }
+
+  if (!appointmentIds || appointmentIds.length === 0) {
+    return { error: 'No se seleccionaron citas para eliminar.' }
+  }
+
+  const { error } = await supabase
+    .from('appointments')
+    .delete()
+    .in('id', appointmentIds)
+    .eq('barbershop_id', barbershopId) // Security check
+
+  if (error) {
+    console.error('Error deleting appointments:', error)
+    return { error: 'Error al eliminar las citas seleccionadas.' }
+  }
+
+  revalidatePath('/dashboard/appointments')
+  revalidatePath('/dashboard')
+  return { success: true }
+}
+

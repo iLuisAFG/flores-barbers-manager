@@ -1999,6 +1999,10 @@ body {
   background-color: rgb(239 68 68 / 0.1);
 }
 
+.hover\:bg-red-500\/20:hover {
+  background-color: rgb(239 68 68 / 0.2);
+}
+
 .hover\:bg-white\/10:hover {
   background-color: rgb(255 255 255 / 0.1);
 }
@@ -2114,6 +2118,10 @@ body {
 .focus\:ring-gold-500:focus {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(212 175 55 / var(--tw-ring-opacity, 1));
+}
+
+.focus\:ring-gold-500\/50:focus {
+  --tw-ring-color: rgb(212 175 55 / 0.5);
 }
 
 .focus\:ring-offset-2:focus {
